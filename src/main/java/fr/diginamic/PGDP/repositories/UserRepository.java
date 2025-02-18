@@ -6,7 +6,11 @@ import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
 
+/** Classe qui va communiquer avec la base de données */
 @Repository
-public interface UserRepository extends JpaRepository<User, Integer> {
+public interface UserRepository extends JpaRepository<User, Long> {
+    /** Fonction permettant de trouver un utilisateur grâce à son adresse mail */
     Optional<User> findByEmail(String email);
+    /** Fonction permettant de trouver un utilisateur grâce à son ID */
+    Optional<User> findById(long id);
 }
