@@ -1,18 +1,27 @@
 package fr.diginamic.PGDP.entities;
 
+import fr.diginamic.PGDP.Roles;
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
+import java.util.Collection;
+import java.util.List;
 import java.util.Objects;
 
 @Entity
-@Table(name = "user")
-public class User {
+@Getter
+@Setter
+@NoArgsConstructor
+public class User implements UserDetails {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(nullable = false)
     private Integer id;
-
     @Column(nullable = false)
     private String lastName;
 
@@ -31,76 +40,52 @@ public class User {
     @Column
     private Boolean emailConfirmed;
 
-
-    public User() {
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return List.of(Roles.USER::name);
     }
 
-    public User(String lastName, String firstName, String pseudo, String email, String password) {
-        this.lastName = lastName;
-        this.firstName = firstName;
-        this.pseudo = pseudo;
-        this.email = email;
-        this.password = password;
-        this.emailConfirmed = false;
-    }
-
-    public Integer getId() {
-        return id;
-    }
-
-    public String getLastName() {
-        return lastName;
-    }
-
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
-    }
-
-    public String getFirstName() {
-        return firstName;
-    }
-
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
-
-    public String getPseudo() {
-        return pseudo;
-    }
-
-    public void setPseudo(String pseudo) {
-        this.pseudo = pseudo;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
+    @Override
     public String getPassword() {
         return password;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
+    @Override
+    public String getUsername() {
+        return pseudo;
     }
 
-    public Boolean getEmailConfirmed() {
-        return emailConfirmed;
+    @Override
+    public boolean isAccountNonExpired() {
+        return UserDetails.super.isAccountNonExpired();
     }
 
-    public void setEmailConfirmed(Boolean emailConfirmed) {
-        this.emailConfirmed = emailConfirmed;
+    @Override
+    public boolean isAccountNonLocked() {
+        return UserDetails.super.isAccountNonLocked();
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return UserDetails.super.isCredentialsNonExpired();
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return UserDetails.super.isEnabled();
     }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof User user)) return false;
-        return Objects.equals(id, user.id) && Objects.equals(lastName, user.lastName) && Objects.equals(firstName, user.firstName) && Objects.equals(pseudo, user.pseudo) && Objects.equals(email, user.email) && Objects.equals(password, user.password) && Objects.equals(emailConfirmed, user.emailConfirmed);
+        return Objects.equals(id, user.id)
+                && Objects.equals(lastName, user.lastName)
+                && Objects.equals(firstName, user.firstName)
+                && Objects.equals(pseudo, user.pseudo)
+                && Objects.equals(email, user.email)
+                && Objects.equals(password, user.password)
+                && Objects.equals(emailConfirmed, user.emailConfirmed);
     }
 
     @Override
