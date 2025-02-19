@@ -2,9 +2,7 @@ package fr.diginamic.PGDP.entities;
 
 import fr.diginamic.PGDP.Roles;
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -12,33 +10,60 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
 
+/**
+ * Classe gérant un utilisateur
+ */
 @Entity
 @Getter
 @Setter
+@Builder
 @NoArgsConstructor
+@AllArgsConstructor
 public class User implements UserDetails {
 
+    /**
+     * ID auto-générer en base de données
+     */
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(nullable = false)
-    private Integer id;
+    private long id;
+
+    /**
+     * Variable contenant le nom d'un utilisateur
+     */
     @Column(nullable = false)
     private String lastName;
 
+    /**
+     * Variable contenant le prénom d'un utilisateur
+     */
     @Column(nullable = false)
     private String firstName;
 
+    /**
+     * Variable contenant le pseudonyme d'un utilisateur
+     */
     @Column
     private String pseudo;
 
+    /**
+     * Variable contenant l'email d'un utilisateur
+     */
     @Column(nullable = false)
     private String email;
 
+    /**
+     * Variable conteant le mot de passe d'un utilisateur
+     */
     @Column(nullable = false)
     private String password;
 
+    /**
+     * Variable indiquant si l'utilisateur a vérifier son email
+     */
     @Column
-    private Boolean emailConfirmed;
+    private boolean emailConfirmed;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -46,13 +71,8 @@ public class User implements UserDetails {
     }
 
     @Override
-    public String getPassword() {
-        return password;
-    }
-
-    @Override
     public String getUsername() {
-        return pseudo;
+        return this.email;
     }
 
     @Override
