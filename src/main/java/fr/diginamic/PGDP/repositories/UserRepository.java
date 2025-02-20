@@ -7,7 +7,7 @@ import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
 
-/** Classe qui va communiquer avec la base de données */
+/** Classe qui va communiquer avec la table User dans la base de données */
 @Repository
 public interface UserRepository extends JpaRepository<User, Long> {
     Optional<User> findByEmail(String email);
