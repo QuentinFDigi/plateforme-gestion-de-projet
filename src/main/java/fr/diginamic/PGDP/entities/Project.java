@@ -49,7 +49,7 @@ public class Project {
     private List<Collaboration> collaborators;
 
     @ManyToOne()
-    @JoinColumn(name="id_User")
+    @JoinColumn(name="id_User", referencedColumnName = "id")
     private User creator;
 
     /** Constructeur de la classe projet

@@ -23,12 +23,12 @@ public class Collaboration {
 
     /** Variable contenant les données du projet */
     @ManyToOne
-    @JoinColumn(name="id_project")
+    @JoinColumn(name="id_project", referencedColumnName = "id")
     private Project project;
 
     /** Variable contenant les données de l'utilisateur */
     @ManyToOne
-    @JoinColumn(name="id_User")
+    @JoinColumn(name="id_User", referencedColumnName = "id")
     private User user;
 
     /** Constructeur permettant la création d'une collaboration

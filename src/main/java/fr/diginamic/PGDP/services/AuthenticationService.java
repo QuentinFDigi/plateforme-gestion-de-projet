@@ -36,7 +36,6 @@ public class AuthenticationService {
 
     public User currentUser(){
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-
-       return (User) authentication.getPrincipal();
+        return (User) authentication.getPrincipal();
     }
 }
