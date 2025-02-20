@@ -12,7 +12,7 @@ public class User {
     /** ID auto-générer en base de données */
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(nullable = false)
+    @Column
     private long id;
 
     /** Variable contenant le nom d'un utilisateur */

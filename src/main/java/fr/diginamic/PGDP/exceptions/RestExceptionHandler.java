@@ -1,5 +1,8 @@
 package fr.diginamic.PGDP.exceptions;
 
+import fr.diginamic.PGDP.exceptions.projects.InvalidEndDateException;
+import fr.diginamic.PGDP.exceptions.projects.InvalidNameException;
+import fr.diginamic.PGDP.exceptions.projects.ProjectNotFoundException;
 import fr.diginamic.PGDP.exceptions.users.*;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -79,5 +82,40 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
     @ExceptionHandler({ InvalidPasswordException.class })
     protected ResponseEntity<Object> handleInvalidPassword (Exception ex, WebRequest request){
         return handleExceptionInternal(ex, "Veuillez entrer un mot de passe valide.", new HttpHeaders(), HttpStatus.BAD_REQUEST, request);
+    }
+
+    /** Project exceptions */
+
+    /** Fonction retournant une exception si le projet n'est pas trouvé.
+     *
+     * @param ex Variable contenant l'exception
+     * @param request Variable contenant la requête http
+     * @return ResponseEntity<Object>
+     */
+    @ExceptionHandler({ ProjectNotFoundException.class })
+    protected ResponseEntity<Object> handleNotFoundProject(Exception ex, WebRequest request){
+        return handleExceptionInternal(ex, "Projet non trouvé.", new HttpHeaders(), HttpStatus.NOT_FOUND, request);
+    }
+
+    /** Fonction retournant une exception si le nom du projet est invalide.
+     *
+     * @param ex Variable contenant l'exception
+     * @param request Variable contenant la requête http
+     * @return ResponseEntity<Object>
+     */
+    @ExceptionHandler({InvalidNameException.class })
+    protected ResponseEntity<Object> handleInvalidProjectName(Exception ex, WebRequest request){
+        return handleExceptionInternal(ex, "Veuillez renseigner le nom du projet.", new HttpHeaders(), HttpStatus.BAD_REQUEST, request);
+    }
+
+    /** Fonction retournant une exception si la date de fin du projet est invalide.
+     *
+     * @param ex Variable contenant l'exception
+     * @param request Variable contenant la requête http
+     * @return ResponseEntity<Object>
+     */
+    @ExceptionHandler({InvalidEndDateException.class })
+    protected ResponseEntity<Object> handleInvalidProjectEndDate(Exception ex, WebRequest request){
+        return handleExceptionInternal(ex, "Date de fin non valide. La date doit être supérieure à la date d'aujourd'hui.", new HttpHeaders(), HttpStatus.BAD_REQUEST, request);
     }
 }
