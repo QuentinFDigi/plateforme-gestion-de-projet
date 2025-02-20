@@ -1,6 +1,11 @@
 package fr.diginamic.PGDP.dtos.users;
 
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
+
 /** Classe contenant la structure d'affichage d'un utilisateur */
+@AllArgsConstructor
+@NoArgsConstructor
 public class UserDto {
 
     /** Variable conteant l'id de l'utilisateur */
