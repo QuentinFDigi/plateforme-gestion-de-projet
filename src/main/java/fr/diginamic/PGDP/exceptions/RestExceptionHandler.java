@@ -1,5 +1,7 @@
 package fr.diginamic.PGDP.exceptions;
 
+import fr.diginamic.PGDP.exceptions.collaborations.UserCantAccessToProjectException;
+import fr.diginamic.PGDP.exceptions.collaborations.UserCantUpdateProjectException;
 import fr.diginamic.PGDP.exceptions.projects.InvalidEndDateException;
 import fr.diginamic.PGDP.exceptions.projects.InvalidNameException;
 import fr.diginamic.PGDP.exceptions.projects.ProjectNotFoundException;
@@ -114,8 +116,32 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
      * @param request Variable contenant la requête http
      * @return ResponseEntity<Object>
      */
-    @ExceptionHandler({InvalidEndDateException.class })
+    @ExceptionHandler({ InvalidEndDateException.class })
     protected ResponseEntity<Object> handleInvalidProjectEndDate(Exception ex, WebRequest request){
         return handleExceptionInternal(ex, "Date de fin non valide. La date doit être supérieure à la date d'aujourd'hui.", new HttpHeaders(), HttpStatus.BAD_REQUEST, request);
+    }
+
+    /** Collaborations Exception */
+
+    /** Fonction retournant une exception si l'utilisateur essaye d'accéder à un projet dans le quel il n'est pas collaborateur.
+     *
+     * @param ex Variable contenant l'exception
+     * @param request Variable contenant la requête http
+     * @return ResponseEntity<Object>
+     */
+    @ExceptionHandler({ UserCantAccessToProjectException.class })
+    protected  ResponseEntity<Object> handleUserCantAccessToProject(Exception ex, WebRequest request){
+        return handleExceptionInternal(ex, "Vous n'avez pas accés à ce projet.", new HttpHeaders(), HttpStatus.FORBIDDEN, request);
+    }
+
+    /** Fonction retournant une exception si l'utilisateur essaye de modifier un projet sans les droit de le faire.
+     *
+     * @param ex Variable contenant l'exception
+     * @param request Variable contenant la requête http
+     * @return ResponseEntity<Object>
+     */
+    @ExceptionHandler({ UserCantUpdateProjectException.class })
+    protected  ResponseEntity<Object> handleUserCantUpdateProject(Exception ex, WebRequest request){
+        return handleExceptionInternal(ex, "Vous n'avez pas les droit nécessaire pour modifier le projet.", new HttpHeaders(), HttpStatus.FORBIDDEN, request);
     }
 }

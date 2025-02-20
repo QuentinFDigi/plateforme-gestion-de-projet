@@ -1,10 +1,14 @@
 package fr.diginamic.PGDP.entities;
 
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
 
 /** Classe contenant les différentes données liant les utilisateurs à leurs projets */
 @Entity
 @Table(name = "collaboration")
+@Getter
+@Setter
 public class Collaboration {
 
     /** ID auto-générer en base de données */
@@ -35,62 +39,6 @@ public class Collaboration {
     public Collaboration(Project project, User user) {
         this.projectRole = ProjectRole.MEMBER;
         this.project = project;
-        this.user = user;
-    }
-
-    /** Getter
-     *
-     * @return id
-     */
-    public long getId() {
-        return id;
-    }
-
-    /** Getter
-     *
-     * @return projectRole
-     */
-    public ProjectRole getProjectRole() {
-        return projectRole;
-    }
-
-    /** Setter
-     *
-     * @param projectRole Variable contenant le role du projet
-     */
-    public void setProjectRole(ProjectRole projectRole) {
-        this.projectRole = projectRole;
-    }
-
-    /** Getter
-     *
-     * @return project
-     */
-    public Project getProject() {
-        return project;
-    }
-
-    /** Setter
-     *
-     * @param project Variable contenant les données du projet en lien
-     */
-    public void setProject(Project project) {
-        this.project = project;
-    }
-
-    /** Getter
-     *
-     * @return user
-     */
-    public User getUser() {
-        return user;
-    }
-
-    /** Setter
-     *
-     * @param user Variable contenant les données de l'utilisateur en lien
-     */
-    public void setUser(User user) {
         this.user = user;
     }
 
