@@ -40,8 +40,8 @@ public class TeamController {
      */
     @GetMapping("/{id}")
     public ResponseEntity<TeamDTO> getTeamById(@PathVariable Long id) {
-        Optional<TeamDTO> team = teamService.getTeamById(id);
-        return team.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
+        TeamDTO team = teamService.getTeamById(id);
+        return ResponseEntity.ok(team);
     }
 
     /**
