@@ -45,7 +45,7 @@ public class Project {
     @Column
     private String contact;
 
-    @OneToMany(mappedBy = "collaboration")
+    @OneToMany(mappedBy = "project")
     private List<Collaboration> collaborators;
 
     @ManyToOne()

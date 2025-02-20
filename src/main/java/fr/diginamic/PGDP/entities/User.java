@@ -4,7 +4,6 @@ import fr.diginamic.PGDP.Roles;
 import jakarta.persistence.*;
 import org.springframework.security.core.GrantedAuthority;
 import lombok.*;
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
@@ -51,19 +50,19 @@ public class User implements UserDetails {
     private boolean emailConfirmed;
 
     /** Variable contenant les différentes collaboration de l'utilsiateur */
-    @OneToMany(mappedBy = "collaboration")
+    @OneToMany(mappedBy = "user")
     private List<Collaboration> collaborations;
 
     /** Variable contenant la liste des projets créer par l'utilisateur */
-    @OneToMany(mappedBy = "project")
-    private List<Project> projectsCreated;
+    @OneToMany(mappedBy = "creator")
+    private List<Project> createdProjects;
 
     /** Fonction ajouter un nouveau projet créer par l'utilsiateur courant
      *
      * @param project donnée du projet créer
      */
     public void createProject(Project project){
-        projectsCreated.add(project);
+        createdProjects.add(project);
     }
 
     @Override

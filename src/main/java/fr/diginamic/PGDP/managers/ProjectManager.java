@@ -13,14 +13,15 @@ import fr.diginamic.PGDP.services.AuthenticationService;
 import fr.diginamic.PGDP.services.ProjectService;
 import fr.diginamic.PGDP.transformers.ProjectTransformer;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 /** Classe contenant la logique des diverses opérations mener sur un projet */
+@Service
 public class ProjectManager {
 
     /** Variable permettant de faire appel à la classe projectRepository pour communiquer avec la base de données */
@@ -135,7 +136,7 @@ public class ProjectManager {
 //
 //        return projectDtos;
 
-        return authenticationService.currentUser().getProjectsCreated().stream()
+        return authenticationService.currentUser().getCreatedProjects().stream()
                 .map(projectTransformer::projectToProjectDto)
                 .collect(Collectors.toList());
     }
