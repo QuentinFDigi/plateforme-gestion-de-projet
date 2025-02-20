@@ -1,6 +1,7 @@
 package fr.diginamic.PGDP.entities;
 
 import jakarta.persistence.*;
+import lombok.*;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -9,6 +10,11 @@ import java.util.Objects;
 /** Classe gérant la structure d'un projet */
 @Entity
 @Table(name = "project")
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
 public class Project {
 
     /** ID auto-générer en base de données */
@@ -46,10 +52,6 @@ public class Project {
     @JoinColumn(name="id_User")
     private User creator;
 
-    /** Constructeur vide pour JPA */
-    public Project() {
-    }
-
     /** Constructeur de la classe projet
      *
      * @param name nom du projet
@@ -63,95 +65,6 @@ public class Project {
         this.startDate = startDate;
         this.endDate = endDate;
         this.description = description;
-        this.contact = contact;
-    }
-
-    /** Getter
-     *
-     * @return id
-     */
-    public long getId() {
-        return id;
-    }
-
-    /** Getter
-     *
-     * @return name
-     */
-    public String getName() {
-        return name;
-    }
-
-
-    /** Setter
-     *
-     * @param name Nom du projet
-     */
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    /** Getter
-     *
-     * @return startDate
-     */
-    public LocalDate getStartDate() {
-        return startDate;
-    }
-
-    /** Setter
-     *
-     * @param startDate date de début du projet
-     */
-    public void setStartDate(LocalDate startDate) {
-        this.startDate = startDate;
-    }
-
-    /** Getter
-     *
-     * @return endDate
-     */
-    public LocalDate getEndDate() {
-        return endDate;
-    }
-
-    /** Setter
-     *
-     * @param endDate date de fin du projet
-     */
-    public void setEndDate(LocalDate endDate) {
-        this.endDate = endDate;
-    }
-
-    /** Getter
-     *
-     * @return description
-     */
-    public String getDescription() {
-        return description;
-    }
-
-    /** Setter
-     *
-     * @param description description du projet
-     */
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    /** Getter
-     *
-     * @return contact
-     */
-    public String getContact() {
-        return contact;
-    }
-
-    /** Setter
-     *
-     * @param contact moyen de contact du projet
-     */
-    public void setContact(String contact) {
         this.contact = contact;
     }
 

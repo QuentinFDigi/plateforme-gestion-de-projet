@@ -3,6 +3,7 @@ package fr.diginamic.PGDP.transformers;
 import fr.diginamic.PGDP.dtos.projects.ProjectAddOrModifyDto;
 import fr.diginamic.PGDP.dtos.projects.ProjectDto;
 import fr.diginamic.PGDP.entities.Project;
+import fr.diginamic.PGDP.entities.User;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
@@ -17,15 +18,13 @@ public class ProjectTransformer {
      * @return projectDto
      */
     public ProjectDto projectToProjectDto(Project project){
-        ProjectDto projectDto = new ProjectDto();
-
-        projectDto.setName(project.getName());
-        projectDto.setStartDate(project.getStartDate());
-        projectDto.setEndDate(project.getEndDate());
-        projectDto.setDescription(project.getDescription());
-        projectDto.setContact(project.getContact());
-
-        return projectDto;
+        return ProjectDto.builder()
+                .name(project.getName())
+                .startDate(project.getStartDate())
+                .endDate(project.getEndDate())
+                .description(project.getDescription())
+                .contact(project.getContact())
+                .build();
     }
 
     /** Fonction qui transforme un projetAjoutOuModifie en un projet lors de l'ajout d'un projet
@@ -33,17 +32,14 @@ public class ProjectTransformer {
      * @param projectAddOrModifyDto variable contenant les données d'un projet
      * @return project
      */
-    public Project projectAddDtoToProject(ProjectAddOrModifyDto projectAddOrModifyDto){
-        Project project = new Project();
-
-        project.setName(projectAddOrModifyDto.getName());
-        project.setStartDate(LocalDate.now());
-        project.setEndDate(projectAddOrModifyDto.getEndDate());
-        project.setDescription(projectAddOrModifyDto.getDescription());
-        // TODO : "test@test.com" à modifier par l'adresse mail de l'utilisateur courant
-        project.setContact(projectAddOrModifyDto.getContact() == null ? "test@test.com" : projectAddOrModifyDto.getContact());
-
-        return project;
+    public Project projectAddDtoToProject(ProjectAddOrModifyDto projectAddOrModifyDto, User currentUser){
+        return Project.builder().name(projectAddOrModifyDto.getName())
+                .startDate(LocalDate.now())
+                .endDate(projectAddOrModifyDto.getEndDate())
+                .description(projectAddOrModifyDto.getDescription())
+                .contact(projectAddOrModifyDto.getContact() == null ? currentUser.getEmail() : projectAddOrModifyDto.getContact())
+                .creator(currentUser)
+                .build();
     }
 
     /** Fonction qui transforme un projetAjoutOuModifie en un projet lors de la modification d'un projet
@@ -56,7 +52,6 @@ public class ProjectTransformer {
         project.setName(projectAddOrModifyDto.getName());
         project.setEndDate(projectAddOrModifyDto.getEndDate());
         project.setDescription(projectAddOrModifyDto.getDescription());
-        // TODO : "test@test.com" à modifier par l'adresse mail de l'utilisateur courant
         project.setContact(projectAddOrModifyDto.getContact() == null ? project.getContact() : projectAddOrModifyDto.getContact());
 
         return  project;

@@ -20,12 +20,31 @@ public class ProjectController {
     @Autowired
     ProjectManager projectManager;
 
+    /** Fonction qui va retourner tous les projets auxquels l'utilisateur a accès
+     *
+     * @return Liste de tout les projectsDto lié à l'utilisateur
+     */
     @GetMapping
     public List<ProjectDto> findAllProjectsOfCurrentUser(){
-        projectManager.findAllProjectsOfCurrentUser();
-        // TODO : Créer une fonction retournant la liste des projets de l'utilisateur courant
+        return projectManager.findAllProjectsOfCurrentUser();
+    }
 
-        return new ArrayList<>();
+    /** Fonction qui va retourner tous les projets que l'utilisateur a créés
+     *
+     * @return Liste de tout les projet que l'utilisateur à créer
+     */
+    @GetMapping("/created")
+    public List<ProjectDto> findAllProjectsCreatedByCurrentUser(){
+        return projectManager.findAllProjectsCreatedByCurrentUser();
+    }
+
+    /** Fonction qui va retourner tous les projets où l'utilisateur est un collaborateur
+     *
+     * @return Liste de tout les projet où l'utilisateur collabore
+     */
+    @GetMapping("/collaborate")
+    public List<ProjectDto> findAllProjectsWhereCurrentUserCollaborate(){
+        return projectManager.findAllProjectsWhereCurrentUserCollaborate();
     }
 
     /** Fonction retournant un projet selon son identifiant
@@ -35,9 +54,8 @@ public class ProjectController {
      */
     @GetMapping("/{id}")
     public ProjectDto findProject(@PathVariable long id){
-
-        // TODO : Ajouter une vérification si l'utilisateur appartient bien au projet
-
+        // TODO : Ajouter un booleen pour savoir si le projet est privé ou non
+        projectManager.verifyUser(id);
         return projectManager.findById(id);
     }
 
@@ -48,9 +66,6 @@ public class ProjectController {
      */
     @PostMapping
     public ProjectDto addProject(@RequestBody ProjectAddOrModifyDto projectAddOrModifyDto){
-
-        // TODO : Ajouter une vérification si l'utilisateur appartient bien au projet
-
         projectManager.verify(projectAddOrModifyDto);
         return projectManager.addProject(projectAddOrModifyDto);
     }
@@ -63,9 +78,8 @@ public class ProjectController {
      */
     @PutMapping("/{id}")
     public ProjectDto updateProject(@PathVariable long id, @RequestBody ProjectAddOrModifyDto projectAddOrModifyDto){
-
-        // TODO : Ajouter une vérification si l'utilisateur appartient bien au projet
-
+        projectManager.verifyUser(id);
+        projectManager.verifyUserPerm(id);
         projectManager.verify(projectAddOrModifyDto);
         return projectManager.modifyProject(id, projectAddOrModifyDto);
     }
@@ -76,6 +90,8 @@ public class ProjectController {
      */
     @DeleteMapping("{id}")
     public void deleteProject(@PathVariable long id){
+        projectManager.verifyUser(id);
+        projectManager.verifyUserPerm(id);
         projectManager.delete(id);
     }
 
