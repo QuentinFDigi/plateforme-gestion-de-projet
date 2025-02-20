@@ -2,6 +2,7 @@ package fr.diginamic.PGDP.entities;
 
 import jakarta.persistence.*;
 
+import java.util.List;
 import java.util.Objects;
 
 /** Classe gérant un utilisateur */
@@ -39,6 +40,14 @@ public class User {
     @Column
     private boolean emailConfirmed;
 
+    /** Variable contenant les différentes collaboration de l'utilsiateur */
+    @OneToMany(mappedBy = "collaboration")
+    private List<Collaboration> collaborations;
+
+    /** Variable contenant la liste des projets créer par l'utilisateur */
+    @OneToMany(mappedBy = "project")
+    private List<Project> projectsCreated;
+
     /** Constructeur vide pour JPA */
     public User() {
     }
@@ -58,6 +67,14 @@ public class User {
         this.email = email;
         this.password = password;
         this.emailConfirmed = false;
+    }
+
+    /** Fonction ajouter un nouveau projet créer par l'utilsiateur courant
+     *
+     * @param project donnée du projet créer
+     */
+    public void createProject(Project project){
+        projectsCreated.add(project);
     }
 
     /** Getter
@@ -162,6 +179,38 @@ public class User {
      */
     public void setEmailConfirmed(boolean emailConfirmed) {
         this.emailConfirmed = emailConfirmed;
+    }
+
+    /** Getter
+     *
+     * @return collaborations
+     */
+    public List<Collaboration> getCollaborations() {
+        return collaborations;
+    }
+
+    /** Setter
+     *
+     * @param collaborations collaborations
+     */
+    public void setCollaborations(List<Collaboration> collaborations) {
+        this.collaborations = collaborations;
+    }
+
+    /** Getter
+     *
+     * @return projectsCreated
+     */
+    public List<Project> getProjectsCreated() {
+        return projectsCreated;
+    }
+
+    /** Setter
+     *
+     * @param projectsCreated projectsCreated
+     */
+    public void setProjectsCreated(List<Project> projectsCreated) {
+        this.projectsCreated = projectsCreated;
     }
 
     @Override

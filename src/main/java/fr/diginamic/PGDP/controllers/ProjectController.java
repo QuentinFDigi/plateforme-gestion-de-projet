@@ -22,7 +22,7 @@ public class ProjectController {
 
     @GetMapping
     public List<ProjectDto> findAllProjectsOfCurrentUser(){
-
+        projectManager.findAllProjectsOfCurrentUser();
         // TODO : Créer une fonction retournant la liste des projets de l'utilisateur courant
 
         return new ArrayList<>();

@@ -3,9 +3,12 @@ package fr.diginamic.PGDP.entities;
 import jakarta.persistence.*;
 
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Objects;
 
 /** Classe gérant la structure d'un projet */
+@Entity
+@Table(name = "project")
 public class Project {
 
     /** ID auto-générer en base de données */
@@ -35,6 +38,13 @@ public class Project {
     /** Variable contenant le moyen de contact pour le projet */
     @Column
     private String contact;
+
+    @OneToMany(mappedBy = "collaboration")
+    private List<Collaboration> collaborators;
+
+    @ManyToOne()
+    @JoinColumn(name="id_User")
+    private User creator;
 
     /** Constructeur vide pour JPA */
     public Project() {

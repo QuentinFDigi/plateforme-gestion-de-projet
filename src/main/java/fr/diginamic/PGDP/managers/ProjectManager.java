@@ -79,4 +79,7 @@ public class ProjectManager {
 
         projectRepository.delete(project);
     }
+
+    public void findAllProjectsOfCurrentUser() {
+    }
 }
