@@ -1,13 +1,17 @@
 package fr.diginamic.PGDP.dtos.projects;
 
+import jakarta.validation.constraints.NotBlank;
+
 import java.time.LocalDate;
+
 
 public class ProjectAddOrModifyDto {
 
-    /** Variable contenant le nom d'un projet */
+    /** Vari able contenant le nom d'un projet */
     private String name;
 
     /** Variable indiquant la date de fin d'un projet */
+
     private LocalDate endDate;
 
     /** Variable contenant une description du projet */

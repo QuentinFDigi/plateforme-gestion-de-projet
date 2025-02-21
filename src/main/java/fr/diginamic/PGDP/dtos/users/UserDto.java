@@ -1,9 +1,13 @@
 package fr.diginamic.PGDP.dtos.users;
 
 import lombok.AllArgsConstructor;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 /** Classe contenant la structure d'affichage d'un utilisateur */
+@Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 public class UserDto {
@@ -22,86 +26,6 @@ public class UserDto {
 
     /** Variable indiquant si l'utilisateur à vérifier son adresse mail */
     private boolean emailConfirmed;
-
-    /** Getter
-     *
-     * @return id
-     */
-    public long getId() {
-        return id;
-    }
-
-    /** Setter
-     *
-     * @param id identifiant de l'utilisateur
-     */
-    public void setId(long id) {
-        this.id = id;
-    }
-
-    /** Getter
-     *
-     * @return fullName
-     */
-    public String getFullName() {
-        return fullName;
-    }
-
-    /** Setter
-     *
-     * @param fullName prénom et nom de l'utilisateur
-     */
-    public void setFullName(String fullName) {
-        this.fullName = fullName;
-    }
-
-    /** Getter
-     *
-     * @return pseudo
-     */
-    public String getPseudo() {
-        return pseudo;
-    }
-
-    /** Setter
-     *
-     * @param pseudo pseudonyme de l'utilisateur
-     */
-    public void setPseudo(String pseudo) {
-        this.pseudo = pseudo;
-    }
-
-    /** Getter
-     *
-     * @return email
-     */
-    public String getEmail() {
-        return email;
-    }
-
-    /** Setter
-     *
-     * @param email email de l'utilisateur
-     */
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    /** Getter
-     *
-     * @return emailConfirmed
-     */
-    public boolean isEmailConfirmed() {
-        return emailConfirmed;
-    }
-
-    /** Setter
-     *
-     * @param emailConfirmed booléen indiquant si le mail de l'utilisateur est confirmé
-     */
-    public void setEmailConfirmed(boolean emailConfirmed) {
-        this.emailConfirmed = emailConfirmed;
-    }
 
     @Override
     public String toString() {

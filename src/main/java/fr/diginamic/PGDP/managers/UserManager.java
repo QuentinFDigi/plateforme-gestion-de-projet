@@ -35,6 +35,12 @@ public class UserManager {
      */
     private final UserService userService;
 
+    /** Constructeur pour les différents services
+     *
+     * @param userRepository variable permettant de faire appel a la classe permettant les échanges avec la base de données
+     * @param userTransformer variable permettant de transformer les users en usersDto
+     * @param userService variable permettant de faire des test métier
+     */
     public UserManager(UserRepository userRepository, UserTransformer userTransformer, UserService userService) {
         this.userRepository = userRepository;
         this.userTransformer = userTransformer;

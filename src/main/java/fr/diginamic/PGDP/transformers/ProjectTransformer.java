@@ -5,11 +5,12 @@ import fr.diginamic.PGDP.dtos.projects.ProjectDto;
 import fr.diginamic.PGDP.entities.Project;
 import fr.diginamic.PGDP.entities.User;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 
 /** Classe qui va permettre de faire diverses transformations entre la classe project et les projectsDto */
-@Component
+@Service
 public class ProjectTransformer {
 
     /** Fonction qui transforme un projet en un projetDto
