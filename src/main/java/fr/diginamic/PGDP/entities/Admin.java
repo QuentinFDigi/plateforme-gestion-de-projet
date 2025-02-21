@@ -1,7 +1,8 @@
 package fr.diginamic.PGDP.entities;
 
-import fr.diginamic.PGDP.Roles;
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import lombok.Getter;
 import lombok.Setter;
@@ -15,11 +16,17 @@ import java.util.List;
 @Getter
 @Setter
 public class Admin implements UserDetails {
+
+    /** ID auto-générer en base de données */
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
+    /** variable contenant le nom de l'admin */
     private String username;
+    /** variable contenant l'email de l'admin */
     private String email;
+    /** variable contenant le mot de passe de l'admin */
     private String password;
 
     public Admin() {

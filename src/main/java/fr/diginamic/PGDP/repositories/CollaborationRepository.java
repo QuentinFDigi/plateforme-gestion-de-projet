@@ -9,11 +9,23 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 import java.util.Optional;
 
-/** Classe qui va communiquer avec la table Collaboration dans la base de données */
+/** Repository pour l'entité {@link Collaboration}.
+ * Permet d'effectuer des opérations CRUD sur la table "collaborations".
+ */
 @Repository
 public interface CollaborationRepository extends JpaRepository<Collaboration, Long> {
-    /** Fonction permettant de retrouver toutes les collaborations d'un utilisateur */
+    /** Fonction permettant de retrouver toutes les collaborations d'un utilisateur
+     *
+     * @param user variable contenant les données d'un utilisateur
+     * @return collaboration
+     */
     List<Collaboration> findByUser(User user);
-    /** Fonction permettant de trouver une collaboration liée à un utilisateur et un projet */
+
+    /** Fonction permettant de trouver une collaboration liée à un utilisateur et un projet
+     *
+     * @param user variable contenant les données d'un utilisateur
+     * @param project variable contenant les données d'un projet
+     * @return collaboration
+     */
     Optional<Collaboration> findByUserAndProject(User user, Project project);
 }

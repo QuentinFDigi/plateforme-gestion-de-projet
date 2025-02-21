@@ -1,13 +1,18 @@
-package fr.diginamic.PGDP.dtos;
+package fr.diginamic.PGDP.dtos.teams;
+
+import lombok.Getter;
+import lombok.Setter;
 
 import java.util.List;
 
 /**
- * Data Transfer Object (DTO) pour l'entité {@link com.formation.bootstrap.entities.Team}.
+ * Data Transfer Object (DTO) pour l'entité {@link fr.diginamic.PGDP.entities.Team}.
  * Utilisé pour transférer les données entre la couche service et la couche contrôleur.
  *
  * @author Romain Wyon
  */
+@Getter
+@Setter
 public class TeamDTO {
 
     /**
@@ -50,37 +55,13 @@ public class TeamDTO {
         this.description = description;
     }
 
-    // Getters et Setters
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public List<String> getContacts() {
-        return contacts;
-    }
-
-    public void setContacts(List<String> contacts) {
-        this.contacts = contacts;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
+    @Override
+    public String toString() {
+        return "TeamDTO{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", contacts=" + contacts +
+                ", description='" + description + '\'' +
+                '}';
     }
 }

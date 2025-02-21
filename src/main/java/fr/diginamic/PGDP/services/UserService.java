@@ -17,6 +17,7 @@ public class UserService {
      *
      * @param userUpdateDto variable contenant les modifications de l'utilisateur
      */
+    // TODO : A changer
     public void updateVerify(UserUpdateDto userUpdateDto) {
         if (Objects.equals(userUpdateDto.getLastName(), "")){
             throw new InvalidLastNameException();
