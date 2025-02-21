@@ -2,19 +2,27 @@ package fr.diginamic.PGDP.managers;
 
 import fr.diginamic.PGDP.dtos.projects.ProjectAddOrModifyDto;
 import fr.diginamic.PGDP.dtos.projects.ProjectDto;
+import fr.diginamic.PGDP.dtos.users.UserDto;
 import fr.diginamic.PGDP.entities.Collaboration;
 import fr.diginamic.PGDP.entities.Project;
 import fr.diginamic.PGDP.entities.User;
+import fr.diginamic.PGDP.exceptions.collaborations.CollaborationNotFoundException;
 import fr.diginamic.PGDP.exceptions.collaborations.UserCantAccessToProjectException;
 import fr.diginamic.PGDP.exceptions.projects.ProjectNotFoundException;
+import fr.diginamic.PGDP.exceptions.users.UserNotFoundException;
 import fr.diginamic.PGDP.repositories.CollaborationRepository;
 import fr.diginamic.PGDP.repositories.ProjectRepository;
+import fr.diginamic.PGDP.repositories.UserRepository;
 import fr.diginamic.PGDP.services.AuthService;
 import fr.diginamic.PGDP.services.ProjectService;
 import fr.diginamic.PGDP.transformers.ProjectTransformer;
+import fr.diginamic.PGDP.transformers.UserTransformer;
+import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -37,6 +45,11 @@ public class ProjectManager {
     /** Variable permettant de faire appel à la classe collaborationRepository pour communiquer avec la base de données */
     private final CollaborationRepository collaborationRepository;
 
+    /** Variable permettant de faire appel à la classe userRepository */
+    private final UserRepository userRepository;
+
+    private final UserTransformer userTransformer;
+
     /** Constructeur pour les différents services
      *
      * @param projectRepository variable permettant de faire des échanges avec la table projet en bdd
@@ -45,12 +58,14 @@ public class ProjectManager {
      * @param authManager variable permettant de gérer les fonctionnalité de l'authentification
      * @param collaborationRepository variable permettant de faire des échanges avec la table collaborations en bdd
      */
-    public ProjectManager(ProjectRepository projectRepository, ProjectService projectService, ProjectTransformer projectTransformer, AuthManager authManager, CollaborationRepository collaborationRepository) {
+    public ProjectManager(ProjectRepository projectRepository, ProjectService projectService, ProjectTransformer projectTransformer, AuthManager authManager, CollaborationRepository collaborationRepository, UserRepository userRepository, UserTransformer userTransformer) {
         this.projectRepository = projectRepository;
         this.projectService = projectService;
         this.projectTransformer = projectTransformer;
         this.authManager = authManager;
         this.collaborationRepository = collaborationRepository;
+        this.userRepository = userRepository;
+        this.userTransformer = userTransformer;
     }
 
     /** Fonction permettant de retrouver un projet grâce à son ID
@@ -178,5 +193,52 @@ public class ProjectManager {
                 )
                 .distinct()
                 .collect(Collectors.toList());
+    }
+
+    /** Fonction permettant de retourner la liste de tous les utilisateurs d'un projet.
+     *
+     * @param idProject identifiant du projet
+     * @return Liste de usersDto contenu dans le projet
+     */
+    public List<UserDto> allUserInProject(long idProject) {
+        Project project = projectRepository.findById(idProject).orElseThrow(ProjectNotFoundException::new);
+        List<Collaboration> collaborations = collaborationRepository.findByProject(project);
+
+        List<UserDto> usersDto = new ArrayList<>();
+
+        for (Collaboration collaboration : collaborations){
+            usersDto.add(userTransformer.userToUserDto(collaboration.getUser()));
+        }
+
+        return usersDto;
+    }
+
+    /** Fonction permettant d'ajouter un utilisateur à un projet en créer une collaboration
+     *
+     * @param idProject variable contenant l'identifiant du projet
+     * @param idUser variable contenant l'identifiant de l'utilisateur à ajouter
+     */
+    @Transactional
+    public void addUserToProject(long idProject, long idUser) {
+        User user = userRepository.findById(idUser).orElseThrow(UserNotFoundException::new);
+        Project project = projectRepository.findById(idProject).orElseThrow(ProjectNotFoundException::new);
+        Collaboration collaboration = new Collaboration(project,user);
+
+        project.addCollaboration(collaboration);
+        projectRepository.save(project);
+    }
+
+
+    /** Fonction permettant de supprimer un utilisateur d'une équipe
+     *
+     * @param idProject identifiant du projet
+     * @param idUser identifiant de l'utilisateur
+     */
+    public void deleteUser(long idProject, long idUser) {
+        User user = userRepository.findById(idUser).orElseThrow(UserNotFoundException::new);
+        Project project = projectRepository.findById(idProject).orElseThrow(ProjectNotFoundException::new);
+        Collaboration collaboration = collaborationRepository.findByUserAndProject(user,project).orElseThrow(CollaborationNotFoundException::new);
+
+        collaborationRepository.delete(collaboration);
     }
 }

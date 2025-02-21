@@ -55,7 +55,7 @@ public class ProjectController {
     @GetMapping("/{id}")
     public ProjectDto findProject(@PathVariable long id){
         // TODO : Ajouter un booleen pour savoir si le projet est privé ou non
-        projectManager.verifyUser(id);
+        // TODO : AJouter des vérification métier avec projectManager.verifyUser(id);
         return projectManager.findById(id);
     }
 
@@ -66,7 +66,7 @@ public class ProjectController {
      */
     @PostMapping
     public ProjectDto addProject(@RequestBody ProjectAddOrModifyDto projectAddOrModifyDto){
-        projectManager.verify(projectAddOrModifyDto);
+        // TODO : AJouter des vérification métier avec projectManager.verify(projectAddOrModifyDto);
         return projectManager.addProject(projectAddOrModifyDto);
     }
 
@@ -80,7 +80,7 @@ public class ProjectController {
     public ProjectDto updateProject(@PathVariable long id, @RequestBody ProjectAddOrModifyDto projectAddOrModifyDto){
         projectManager.verifyUser(id);
         projectManager.verifyUserPerm(id);
-        projectManager.verify(projectAddOrModifyDto);
+        // TODO : AJouter des vérification métier avec projectManager.verify(projectAddOrModifyDto);
         return projectManager.modifyProject(id, projectAddOrModifyDto);
     }
 
@@ -129,10 +129,22 @@ public class ProjectController {
      */
     @GetMapping("/{idProject}/users")
     public List<UserDto> allProjectUsers(@PathVariable long idProject){
+        return projectManager.allUserInProject(idProject);
+    }
 
-        // TODO : Créer une fonction retournant la liste des utilisateur d'un projet
+    /** Fonction permettant l'ajout d'un utilisateur dans le projet
+     *
+     * @param idProject variable contenant l'identifiant du projet
+     * @param idUser variable contenant l'identifiant de l'utilisateur à ajouter
+     */
+    @PostMapping("/{idProject}/users/{idUser}")
+    public void addUserToProject(@PathVariable long idProject, @PathVariable long idUser){
+        projectManager.addUserToProject(idProject,idUser);
+    }
 
-        return new ArrayList<>();
+    @DeleteMapping("/{idProject}/users/{idUser}")
+    public void deleteUserToProject(@PathVariable long idProject, @PathVariable long idUser){
+        projectManager.deleteUser(idProject, idUser);
     }
 
     /** Fonction retournant la liste des user stories d'un projet

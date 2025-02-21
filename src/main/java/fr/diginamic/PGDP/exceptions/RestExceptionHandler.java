@@ -1,5 +1,6 @@
 package fr.diginamic.PGDP.exceptions;
 
+import fr.diginamic.PGDP.exceptions.collaborations.CollaborationNotFoundException;
 import fr.diginamic.PGDP.exceptions.collaborations.UserCantAccessToProjectException;
 import fr.diginamic.PGDP.exceptions.collaborations.UserCantUpdateProjectException;
 import fr.diginamic.PGDP.exceptions.projects.InvalidEndDateException;
@@ -122,6 +123,17 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
     }
 
     /** Collaborations Exception */
+
+    /** Fonction retournant une exception si l'utilisateur essaye de modifier un projet sans les droit de le faire.
+     *
+     * @param ex Variable contenant l'exception
+     * @param request Variable contenant la requête http
+     * @return ResponseEntity<Object>
+     */
+    @ExceptionHandler({ CollaborationNotFoundException.class })
+    protected  ResponseEntity<Object> handleCollaborationNotFound(Exception ex, WebRequest request){
+        return handleExceptionInternal(ex, "Aucun lien n'a été trouvé entre le projet et l'utilisateur.", new HttpHeaders(), HttpStatus.FORBIDDEN, request);
+    }
 
     /** Fonction retournant une exception si l'utilisateur essaye d'accéder à un projet dans le quel il n'est pas collaborateur.
      *

@@ -2,6 +2,7 @@ package fr.diginamic.PGDP.entities;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.checkerframework.checker.units.qual.C;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -66,6 +67,10 @@ public class Project {
         this.endDate = endDate;
         this.description = description;
         this.contact = contact;
+    }
+
+    public void addCollaboration(Collaboration collaboration){
+        this.collaborators.add(collaboration);
     }
 
     @Override
