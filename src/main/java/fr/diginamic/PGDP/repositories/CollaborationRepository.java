@@ -17,9 +17,16 @@ public interface CollaborationRepository extends JpaRepository<Collaboration, Lo
     /** Fonction permettant de retrouver toutes les collaborations d'un utilisateur
      *
      * @param user variable contenant les données d'un utilisateur
-     * @return collaboration
+     * @return liste des collaboration d'un utilisateur
      */
     List<Collaboration> findByUser(User user);
+
+    /** Fonction permettant de retrouver toutes les collaborations d'un projet
+     *
+     * @param project variable contenant les données d'un projet
+     * @return liste des collaboration d'un projet
+     */
+    List<Collaboration> findByProject(Project project);
 
     /** Fonction permettant de trouver une collaboration liée à un utilisateur et un projet
      *
