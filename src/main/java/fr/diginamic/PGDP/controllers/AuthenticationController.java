@@ -50,7 +50,6 @@ public class AuthenticationController {
      */
     @PostMapping("/register")
     public ResponseEntity<User> register(@RequestBody RegisterUserDto registerUserDto) {
-        authManager.verify(registerUserDto);
         User newUser = authManager.signUp(registerUserDto);
         return ResponseEntity.ok(newUser);
     }

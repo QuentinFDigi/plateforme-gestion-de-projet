@@ -73,11 +73,4 @@ public class AuthManager {
         return (User) authentication.getPrincipal();
     }
 
-    /** Fonction qui effectue les vérifications métier pour créer un utilisateur
-     *
-     * @param registerUserDto Variable contenant les données pour inscrire un utilisateur
-     */
-    public void verify(RegisterUserDto registerUserDto) {
-        authService.registerVerify(registerUserDto);
-    }
 }
