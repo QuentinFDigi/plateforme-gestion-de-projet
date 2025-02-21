@@ -1,6 +1,5 @@
 package fr.diginamic.PGDP.entities;
 
-import fr.diginamic.PGDP.Roles;
 import jakarta.persistence.*;
 import org.springframework.security.core.GrantedAuthority;
 import lombok.*;

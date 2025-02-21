@@ -1,6 +1,6 @@
 package fr.diginamic.PGDP.controllers;
 
-import fr.diginamic.PGDP.dtos.TeamDTO;
+import fr.diginamic.PGDP.dtos.teams.TeamDTO;
 import fr.diginamic.PGDP.services.TeamService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -9,7 +9,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 /**
  * Contrôleur REST pour gérer les opérations sur les équipes.

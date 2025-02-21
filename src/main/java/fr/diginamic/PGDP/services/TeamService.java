@@ -1,6 +1,6 @@
 package fr.diginamic.PGDP.services;
 
-import fr.diginamic.PGDP.dtos.TeamDTO;
+import fr.diginamic.PGDP.dtos.teams.TeamDTO;
 import fr.diginamic.PGDP.entities.Team;
 import fr.diginamic.PGDP.exceptions.teams.DuplicateTeamException;
 import fr.diginamic.PGDP.exceptions.teams.InvalidTeamDataException;

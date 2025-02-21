@@ -39,8 +39,7 @@ public class UserTransformer {
         return userDto;
     }
 
-    /**
-     * Fonction permettant de transformer un utilisateurModifierDto en Utilisateur
+    /** Fonction permettant de transformer un utilisateurModifierDto en Utilisateur
      *
      * @param userUpdateDto variable contenant les modifications apportées à un utilisateur
      * @param user          variable qui contient les informations de l'utilisateur à modifier
@@ -56,6 +55,11 @@ public class UserTransformer {
         return user;
     }
 
+    /** Fonction permettant de transformer une instance de registerUserDto en une instance de User
+     *
+     * @param registerUserDto variable contenant les données de l'utilisateur voulant créer un compte
+     * @return user
+     */
     public User registerUserDtoToUser(RegisterUserDto registerUserDto) {
         return User.builder()
                 .email(registerUserDto.getEmail())
