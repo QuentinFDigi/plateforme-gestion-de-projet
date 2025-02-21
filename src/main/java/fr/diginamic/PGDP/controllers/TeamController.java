@@ -2,6 +2,8 @@ package fr.diginamic.PGDP.controllers;
 
 import fr.diginamic.PGDP.dtos.TeamDTO;
 import fr.diginamic.PGDP.services.TeamService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -17,6 +19,7 @@ import java.util.Optional;
  */
 @RestController
 @RequestMapping("/api/teams")
+@Tag(name = "Team API", description = "Endpoints pour gérer les équipes")
 public class TeamController {
 
     @Autowired
@@ -27,6 +30,7 @@ public class TeamController {
      *
      * @return Liste des équipes
      */
+    @Operation(summary = "Liste toutes les équipes")
     @GetMapping
     public ResponseEntity<List<TeamDTO>> getAllTeams() {
         return ResponseEntity.ok(teamService.getAllTeams());
@@ -38,6 +42,7 @@ public class TeamController {
      * @param id Identifiant de l'équipe
      * @return L'équipe correspondante ou une réponse 404 si elle n'existe pas
      */
+    @Operation(summary = "Récupère une équipe par son ID")
     @GetMapping("/{id}")
     public ResponseEntity<TeamDTO> getTeamById(@PathVariable Long id) {
         TeamDTO team = teamService.getTeamById(id);
@@ -50,6 +55,7 @@ public class TeamController {
      * @param teamDTO Données de l'équipe
      * @return L'équipe créée
      */
+    @Operation(summary = "Crée une nouvelle équipe")
     @PostMapping
     public ResponseEntity<TeamDTO> createTeam(@RequestBody TeamDTO teamDTO) {
         return ResponseEntity.ok(teamService.createTeam(teamDTO));
@@ -61,6 +67,7 @@ public class TeamController {
      * @param id Identifiant de l'équipe à supprimer
      * @return Réponse 204 No Content si la suppression a réussi
      */
+    @Operation(summary = "Supprime une équipe par son ID")
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteTeam(@PathVariable Long id) {
         teamService.deleteTeam(id);
