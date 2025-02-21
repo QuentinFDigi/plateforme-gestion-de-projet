@@ -1,14 +1,17 @@
 package fr.diginamic.PGDP.entities;
 
+import fr.diginamic.PGDP.annotations.ValidDateRange;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 import lombok.*;
-import org.checkerframework.checker.units.qual.C;
 
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Objects;
 
-/** Classe gérant la structure d'un projet */
+/**
+ * Classe gérant la structure d'un projet
+ */
 @Entity
 @Table(name = "project")
 @Getter
@@ -16,33 +19,47 @@ import java.util.Objects;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class Project {
+@ValidDateRange
+public class Project implements DateRangeValidatable {
 
-    /** ID auto-générer en base de données */
+    /**
+     * ID auto-générer en base de données
+     */
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column
     private long id;
 
-    /** Variable contenant le nom d'un projet */
+    /**
+     * Variable contenant le nom d'un projet
+     */
     @Column(nullable = false)
     private String name;
 
-    /** Variable indiquant la date de début d'un projet */
-    @Column(nullable = false)
+    /**
+     * Variable indiquant la date de début d'un projet
+     */
+    @Column
+    @NotNull
     @Temporal(TemporalType.DATE)
     private LocalDate startDate;
 
-    /** Variable indiquant la date de fin d'un projet */
+    /**
+     * Variable indiquant la date de fin d'un projet
+     */
     @Column
     @Temporal(TemporalType.DATE)
     private LocalDate endDate;
 
-    /** Variable contenant une description du projet */
+    /**
+     * Variable contenant une description du projet
+     */
     @Column
     private String description;
 
-    /** Variable contenant le moyen de contact pour le projet */
+    /**
+     * Variable contenant le moyen de contact pour le projet
+     */
     @Column
     private String contact;
 
@@ -50,16 +67,17 @@ public class Project {
     private List<Collaboration> collaborators;
 
     @ManyToOne()
-    @JoinColumn(name="id_User", referencedColumnName = "id")
+    @JoinColumn(name = "id_User", referencedColumnName = "id")
     private User creator;
 
-    /** Constructeur de la classe projet
+    /**
+     * Constructeur de la classe projet
      *
-     * @param name nom du projet
-     * @param startDate date du début du projet
-     * @param endDate date de fin du projet
+     * @param name        nom du projet
+     * @param startDate   date du début du projet
+     * @param endDate     date de fin du projet
      * @param description description du projet
-     * @param contact moyen de contact du projet
+     * @param contact     moyen de contact du projet
      */
     public Project(String name, LocalDate startDate, LocalDate endDate, String description, String contact) {
         this.name = name;
@@ -69,7 +87,7 @@ public class Project {
         this.contact = contact;
     }
 
-    public void addCollaboration(Collaboration collaboration){
+    public void addCollaboration(Collaboration collaboration) {
         this.collaborators.add(collaboration);
     }
 
