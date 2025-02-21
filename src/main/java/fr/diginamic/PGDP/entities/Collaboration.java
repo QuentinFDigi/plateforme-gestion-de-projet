@@ -1,7 +1,9 @@
 package fr.diginamic.PGDP.entities;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 /** Classe contenant les différentes données liant les utilisateurs à leurs projets */
@@ -9,6 +11,8 @@ import lombok.Setter;
 @Table(name = "collaboration")
 @Getter
 @Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public class Collaboration {
 
     /** ID auto-générer en base de données */

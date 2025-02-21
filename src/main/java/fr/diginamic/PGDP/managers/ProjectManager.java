@@ -109,6 +109,7 @@ public class ProjectManager {
      * @param projectAddOrModifyDto variable contenant les données d'un projet
      * @return projectDto
      */
+    @Transactional
     public ProjectDto addProject(ProjectAddOrModifyDto projectAddOrModifyDto) {
         User currentUser = authManager.currentUser();
         Project project = projectTransformer.projectAddDtoToProject(projectAddOrModifyDto, currentUser);
@@ -223,6 +224,8 @@ public class ProjectManager {
         User user = userRepository.findById(idUser).orElseThrow(UserNotFoundException::new);
         Project project = projectRepository.findById(idProject).orElseThrow(ProjectNotFoundException::new);
         Collaboration collaboration = new Collaboration(project,user);
+
+        collaborationRepository.save(collaboration);
 
         project.addCollaboration(collaboration);
         projectRepository.save(project);

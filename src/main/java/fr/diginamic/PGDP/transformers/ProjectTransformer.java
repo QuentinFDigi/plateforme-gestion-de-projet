@@ -20,6 +20,7 @@ public class ProjectTransformer {
      */
     public ProjectDto projectToProjectDto(Project project){
         return ProjectDto.builder()
+                .id(project.getId())
                 .name(project.getName())
                 .startDate(project.getStartDate())
                 .endDate(project.getEndDate())
