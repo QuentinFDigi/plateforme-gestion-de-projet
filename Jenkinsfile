@@ -22,11 +22,13 @@ pipeline {
         stage('Analyse SonarQube') {
             steps {
                 withSonarQubeEnv('SonarQube') {
-                    sh 'mvn clean verify sonar:sonar \
+                    sh '''
+                        mvn clean verify sonar:sonar \
                           -Dsonar.projectKey=deploy-website \
                           -Dsonar.projectName='deploy-website' \
                           -Dsonar.host.url=http://192.168.59.128:9000 \
-                          -Dsonar.token=sqp_f936eee75318a73a900f4b8bb679a9f4eccf78f5'
+                          -Dsonar.token=sqp_f936eee75318a73a900f4b8bb679a9f4eccf78f5
+                         '''
                 }
             }
         }
