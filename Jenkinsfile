@@ -32,7 +32,7 @@ pipeline {
                 }
             }
         }
-        stage('Vérifier et nettoyer docker-compose existant') {
+        stage('Vérifier et  nettoyer docker-compose existant') {
             steps {
                 script {
                     def isRunning = sh(script: "docker-compose -f compose.yml ps -q | xargs docker inspect -f '{{.State.Running}}' 2>/dev/null | grep true || true", returnStdout: true).trim()
