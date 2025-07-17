@@ -1,7 +1,7 @@
 pipeline {
     agent { label 'vm-linux-agent' }
     tools {
-        maven 'mvn-3.9.10'
+        maven 'MVN-3.9.10'
     }
     environment {
         PORT = "8080"
