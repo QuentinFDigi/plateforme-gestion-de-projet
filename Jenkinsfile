@@ -27,7 +27,7 @@ pipeline {
                           -Dsonar.projectKey=pgdp \
                           -Dsonar.projectName='pgdp' \
                           -Dsonar.host.url=http://192.168.1.55:9000 \
-                          -Dsonar.token=sqp_4cead2ddeb9cca7019dade62ff7b29cd6ee0dee7
+                          -Dsonar.token=sqp_f0f4498bf0ca5c171c1b7be2eea650f6a9728d09
                          '''
                 }
             }
