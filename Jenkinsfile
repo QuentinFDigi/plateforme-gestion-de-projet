@@ -26,7 +26,7 @@ pipeline {
                         mvn clean verify sonar:sonar \
                           -Dsonar.projectKey=pgdp \
                           -Dsonar.projectName='pgdp' \
-                          -Dsonar.host.url=http://localhost:9000 \
+                          -Dsonar.host.url=http://92.159.101.49:9000 \
                           -Dsonar.token=sqp_fedb9e1f1db6a47d846fa3cb501e456cdb378795
                          '''
                 }
