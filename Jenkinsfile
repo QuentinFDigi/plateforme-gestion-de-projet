@@ -38,7 +38,7 @@ pipeline {
                   sh '''
                     rm -rf .env
                     cp $ENV_FILE_PATH .env
-                    docker compose -f compose.yml --env-file .env up -d --build
+                    docker compose --env-file .env up -d --build
                   '''
                 }
             }
