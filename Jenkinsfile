@@ -5,8 +5,8 @@ pipeline {
     }
     environment {
         PORT = "8080"
-        CONTAINER = "test"
-        IMAGE = "test"
+        CONTAINER = "pgdp-container"
+        IMAGE = "pgdp-image"
     }
     stages {
         stage('Build') {
@@ -32,23 +32,14 @@ pipeline {
                 }
             }
         }
-        stage('Vérifier et  nettoyer docker-compose existant') {
-            steps {
-                script {
-                    def isRunning = sh(script: "docker-compose -f compose.yml ps -q | xargs docker inspect -f '{{.State.Running}}' 2>/dev/null | grep true || true", returnStdout: true).trim()
-                    if (isRunning) {
-                       echo 'Un environnement docker-compose est déjà actif. Suppression en cours...'
-                       sh 'docker compose -f compose.yml down'
-                    } else {
-                       echo 'Aucun docker-compose actif.'
-                    }
-                }
-            }
-        }
         stage('Lancer docker-compose') {
             steps {
-              echo 'Lancement du docker-compose...'
-              sh 'docker compose -f compose.yml up -d'
+                withCredentials([file(credentialsId: 'PGDP_ENV_FILE', variable: 'ENV_FILE_PATH')]) {
+                  sh '''
+                    cp $ENV_FILE_PATH .env
+                    docker compose -f compose.yml --env-file .env up -d --build
+                  '''
+                }
             }
         }
     }
