@@ -1,5 +1,5 @@
 pipeline {
-    agent { label 'vm-linux-agent' }
+    agent { label 'agent-linux' }
     tools {
         maven 'MVN-3.9.10'
     }
