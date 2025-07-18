@@ -38,7 +38,7 @@ pipeline {
                     def isRunning = sh(script: "docker-compose -f compose.yml ps -q | xargs docker inspect -f '{{.State.Running}}' 2>/dev/null | grep true || true", returnStdout: true).trim()
                     if (isRunning) {
                        echo 'Un environnement docker-compose est déjà actif. Suppression en cours...'
-                       sh 'docker-compose -f compose.yml down'
+                       sh 'docker compose -f compose.yml down'
                     } else {
                        echo 'Aucun docker-compose actif.'
                     }
@@ -48,7 +48,7 @@ pipeline {
         stage('Lancer docker-compose') {
             steps {
               echo 'Lancement du docker-compose...'
-              sh 'docker-compose -f compose.yml up -d'
+              sh 'docker compose -f compose.yml up -d'
             }
         }
     }
