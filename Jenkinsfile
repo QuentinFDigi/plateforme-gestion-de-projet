@@ -32,6 +32,13 @@ pipeline {
                 }
             }
         }
+        stage("Quality Gate") {
+            steps {
+                timeout(time: 1, unit: 'HOURS') {
+                    waitForQualityGate abortPipeline: true
+                }
+            }
+        }
         stage('Lancer docker-compose') {
             steps {
                 withCredentials([file(credentialsId: 'PGDP_ENV_FILE', variable: 'ENV_FILE_PATH')]) {
