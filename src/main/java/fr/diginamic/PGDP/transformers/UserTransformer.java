@@ -33,6 +33,7 @@ public class UserTransformer {
         UserDto userDto = new UserDto();
         userDto.setId(user.getId());
         userDto.setFullName(user.getFirstName() + " " + user.getLastName());
+        userDto.setPseudo(user.getPseudo());
         userDto.setEmail(user.getEmail());
         userDto.setEmailConfirmed(user.isEmailConfirmed());
 
