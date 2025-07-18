@@ -32,7 +32,20 @@ pipeline {
                 }
             }
         }
-
+        stage('Vérification Quality Gate') {
+            steps {
+                script {
+                    timeout(time: 2, unit: 'MINUTES') {
+                        def qualityGate = waitForQualityGate()
+                        if (qualityGate.status != 'OK') {
+                            error "Échec du Quality Gate SonarQube : statut = ${qualityGate.status}.\nConsultez : http://192.168.1.55:9000/dashboard?id=pgdp"
+                        } else {
+                            echo "Quality Gate réussi : ${qualityGate.status}"
+                        }
+                    }
+                }
+            }
+        }
         stage('Lancer docker-compose') {
             steps {
                 withCredentials([file(credentialsId: 'PGDP_ENV_FILE', variable: 'ENV_FILE_PATH')]) {
