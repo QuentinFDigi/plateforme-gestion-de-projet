@@ -13,7 +13,6 @@ import fr.diginamic.PGDP.exceptions.users.UserNotFoundException;
 import fr.diginamic.PGDP.repositories.CollaborationRepository;
 import fr.diginamic.PGDP.repositories.ProjectRepository;
 import fr.diginamic.PGDP.repositories.UserRepository;
-import fr.diginamic.PGDP.services.AuthService;
 import fr.diginamic.PGDP.services.ProjectService;
 import fr.diginamic.PGDP.transformers.ProjectTransformer;
 import fr.diginamic.PGDP.transformers.UserTransformer;
@@ -22,40 +21,54 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-/** Classe contenant la logique des diverses opérations mener sur un projet */
+/**
+ * Classe contenant la logique des diverses opérations mener sur un projet
+ */
 @Service
 public class ProjectManager {
 
-    /** Variable permettant de faire appel à la classe projectRepository pour communiquer avec la base de données */
+    /**
+     * Variable permettant de faire appel à la classe projectRepository pour communiquer avec la base de données
+     */
     private final ProjectRepository projectRepository;
 
-    /** Variable permettant de faire appel à la classe projectService afin de faire des vérifications métier */
+    /**
+     * Variable permettant de faire appel à la classe projectService afin de faire des vérifications métier
+     */
     private final ProjectService projectService;
 
-    /** Variable permettant de faire appel à la classe projectTransformer afin de transformer la classe projet en diverses DTO */
+    /**
+     * Variable permettant de faire appel à la classe projectTransformer afin de transformer la classe projet en diverses DTO
+     */
     private final ProjectTransformer projectTransformer;
 
-    /** Variable permettant de gérer les fonctionnalité de l'authentification */
+    /**
+     * Variable permettant de gérer les fonctionnalité de l'authentification
+     */
     private final AuthManager authManager;
 
-    /** Variable permettant de faire appel à la classe collaborationRepository pour communiquer avec la base de données */
+    /**
+     * Variable permettant de faire appel à la classe collaborationRepository pour communiquer avec la base de données
+     */
     private final CollaborationRepository collaborationRepository;
 
-    /** Variable permettant de faire appel à la classe userRepository */
+    /**
+     * Variable permettant de faire appel à la classe userRepository
+     */
     private final UserRepository userRepository;
 
     private final UserTransformer userTransformer;
 
-    /** Constructeur pour les différents services
+    /**
+     * Constructeur pour les différents services
      *
-     * @param projectRepository variable permettant de faire des échanges avec la table projet en bdd
-     * @param projectService variable permettant de faire des test métier
-     * @param projectTransformer variable permettant de transformer des projects en projectsDto
-     * @param authManager variable permettant de gérer les fonctionnalité de l'authentification
+     * @param projectRepository       variable permettant de faire des échanges avec la table projet en bdd
+     * @param projectService          variable permettant de faire des test métier
+     * @param projectTransformer      variable permettant de transformer des projects en projectsDto
+     * @param authManager             variable permettant de gérer les fonctionnalité de l'authentification
      * @param collaborationRepository variable permettant de faire des échanges avec la table collaborations en bdd
      */
     public ProjectManager(ProjectRepository projectRepository, ProjectService projectService, ProjectTransformer projectTransformer, AuthManager authManager, CollaborationRepository collaborationRepository, UserRepository userRepository, UserTransformer userTransformer) {
@@ -68,7 +81,8 @@ public class ProjectManager {
         this.userTransformer = userTransformer;
     }
 
-    /** Fonction permettant de retrouver un projet grâce à son ID
+    /**
+     * Fonction permettant de retrouver un projet grâce à son ID
      *
      * @param id identifiant du projet
      * @return projectDto
@@ -77,7 +91,8 @@ public class ProjectManager {
         return projectTransformer.projectToProjectDto(projectRepository.findById(id).orElseThrow(ProjectNotFoundException::new));
     }
 
-    /** Fonction permettant de faire appel au service de vérification afin de vérifier que les données envoyer son correcte
+    /**
+     * Fonction permettant de faire appel au service de vérification afin de vérifier que les données envoyer son correcte
      *
      * @param projectAddOrModifyDto variable contenant les données d'un projet
      */
@@ -85,7 +100,8 @@ public class ProjectManager {
         projectService.verify(projectAddOrModifyDto);
     }
 
-    /** Fonction qui appelle le projectService afin de vérifier si l'utilisateur participe au projet
+    /**
+     * Fonction qui appelle le projectService afin de vérifier si l'utilisateur participe au projet
      *
      * @param id identifiant du projet
      */
@@ -93,18 +109,20 @@ public class ProjectManager {
         Project project = projectRepository.findById(id).orElseThrow(ProjectNotFoundException::new);
         User user = authManager.currentUser();
 
-        return collaborationRepository.findByUserAndProject(user,project).orElseThrow(UserCantAccessToProjectException::new);
+        return collaborationRepository.findByUserAndProject(user, project).orElseThrow(UserCantAccessToProjectException::new);
     }
 
-    /** Fonction permettant de vérifier les droit d'un utilisateur
+    /**
+     * Fonction permettant de vérifier les droit d'un utilisateur
      *
      * @param id identifiant
      */
-    public void verifyUserPerm(long id){
+    public void verifyUserPerm(long id) {
         projectService.verifyUserPerm(verifyUser(id));
     }
 
-    /** Fonction permettant d'ajouter un nouveau projet en utilisant le transformer puis le repository afin de sauvegarder les données
+    /**
+     * Fonction permettant d'ajouter un nouveau projet en utilisant le transformer puis le repository afin de sauvegarder les données
      *
      * @param projectAddOrModifyDto variable contenant les données d'un projet
      * @return projectDto
@@ -114,18 +132,19 @@ public class ProjectManager {
         User currentUser = authManager.currentUser();
         Project project = projectTransformer.projectAddDtoToProject(projectAddOrModifyDto, currentUser);
 
-        Collaboration collaboration = new Collaboration(project,currentUser);
+        Collaboration collaboration = new Collaboration(project, currentUser);
 
         collaborationRepository.save(collaboration);
         projectRepository.save(project);
 
-       return projectTransformer.projectToProjectDto(project);
+        return projectTransformer.projectToProjectDto(project);
     }
 
-    /** Fonction permettant la modification d'un projet retrouvé grâce à son ID,
+    /**
+     * Fonction permettant la modification d'un projet retrouvé grâce à son ID,
      * le modifiant grâce au transformer puis le retransformer en projectDto pour retourner les modifications
      *
-     * @param id identifiant du projet
+     * @param id                    identifiant du projet
      * @param projectAddOrModifyDto variable contenant les données d'un projet
      * @return projectDto
      */
@@ -138,19 +157,23 @@ public class ProjectManager {
         return projectTransformer.projectToProjectDto(project);
     }
 
-    /** Fonction permettant de supprimer un projet grâce à son identifiant
+    /**
+     * Fonction permettant de supprimer un projet grâce à son identifiant
      *
      * @param id identifiant du projet
      */
     public void delete(long id) {
         Project project = projectRepository.findById(id).orElseThrow(ProjectNotFoundException::new);
 
+        List<Collaboration> collaborations = collaborationRepository.findByProject(project);
+        collaborations.forEach(collaborationRepository::delete);
+
         projectRepository.delete(project);
     }
 
 
-
-    /** Fonction retournant la liste des projets créés par l'utilisateur
+    /**
+     * Fonction retournant la liste des projets créés par l'utilisateur
      *
      * @return Liste des projectsDto créer par l'utilisateur courant
      */
@@ -169,10 +192,11 @@ public class ProjectManager {
 
         return authManager.currentUser().getCreatedProjects().stream()
                 .map(projectTransformer::projectToProjectDto)
-                .collect(Collectors.toList());
+                .toList();
     }
 
-    /** Fonction retournant la liste des projets où l'utilisateur collabore
+    /**
+     * Fonction retournant la liste des projets où l'utilisateur collabore
      *
      * @return Liste des projectsDto où l'utilisateur collabore
      */
@@ -180,10 +204,11 @@ public class ProjectManager {
         return collaborationRepository.findByUser(authManager.currentUser()).stream()
                 .map(Collaboration::getProject)
                 .map(projectTransformer::projectToProjectDto)
-                .collect(Collectors.toList());
+                .toList();
     }
 
-    /** Fonction retournant l'intégralité des projets où l'utilisateur participe
+    /**
+     * Fonction retournant l'intégralité des projets où l'utilisateur participe
      *
      * @return Liste des projectsDto où l'utilisateur participe
      */
@@ -196,7 +221,8 @@ public class ProjectManager {
                 .collect(Collectors.toList());
     }
 
-    /** Fonction permettant de retourner la liste de tous les utilisateurs d'un projet.
+    /**
+     * Fonction permettant de retourner la liste de tous les utilisateurs d'un projet.
      *
      * @param idProject identifiant du projet
      * @return Liste de usersDto contenu dans le projet
@@ -207,23 +233,24 @@ public class ProjectManager {
 
         List<UserDto> usersDto = new ArrayList<>();
 
-        for (Collaboration collaboration : collaborations){
+        for (Collaboration collaboration : collaborations) {
             usersDto.add(userTransformer.userToUserDto(collaboration.getUser()));
         }
 
         return usersDto;
     }
 
-    /** Fonction permettant d'ajouter un utilisateur à un projet en créer une collaboration
+    /**
+     * Fonction permettant d'ajouter un utilisateur à un projet en créer une collaboration
      *
      * @param idProject variable contenant l'identifiant du projet
-     * @param idUser variable contenant l'identifiant de l'utilisateur à ajouter
+     * @param idUser    variable contenant l'identifiant de l'utilisateur à ajouter
      */
     @Transactional
     public void addUserToProject(long idProject, long idUser) {
         User user = userRepository.findById(idUser).orElseThrow(UserNotFoundException::new);
         Project project = projectRepository.findById(idProject).orElseThrow(ProjectNotFoundException::new);
-        Collaboration collaboration = new Collaboration(project,user);
+        Collaboration collaboration = new Collaboration(project, user);
 
         collaborationRepository.save(collaboration);
 
@@ -232,15 +259,16 @@ public class ProjectManager {
     }
 
 
-    /** Fonction permettant de supprimer un utilisateur d'une équipe
+    /**
+     * Fonction permettant de supprimer un utilisateur d'une équipe
      *
      * @param idProject identifiant du projet
-     * @param idUser identifiant de l'utilisateur
+     * @param idUser    identifiant de l'utilisateur
      */
     public void deleteUser(long idProject, long idUser) {
         User user = userRepository.findById(idUser).orElseThrow(UserNotFoundException::new);
         Project project = projectRepository.findById(idProject).orElseThrow(ProjectNotFoundException::new);
-        Collaboration collaboration = collaborationRepository.findByUserAndProject(user,project).orElseThrow(CollaborationNotFoundException::new);
+        Collaboration collaboration = collaborationRepository.findByUserAndProject(user, project).orElseThrow(CollaborationNotFoundException::new);
 
         collaborationRepository.delete(collaboration);
     }

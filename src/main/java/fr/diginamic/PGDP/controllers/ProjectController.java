@@ -26,7 +26,7 @@ public class ProjectController {
      */
     @GetMapping
     public List<ProjectDto> findAllProjectsOfCurrentUser(){
-        return projectManager.findAllProjectsOfCurrentUser();
+        return projectManager.findAllProjectsWhereCurrentUserCollaborate();
     }
 
     /** Fonction qui va retourner tous les projets que l'utilisateur a créés
