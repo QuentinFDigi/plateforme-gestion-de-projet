@@ -24,10 +24,10 @@ pipeline {
                 withSonarQubeEnv('SonarQube') {
                     sh '''
                         mvn clean verify sonar:sonar \
-                          -Dsonar.projectKey=deploy-website \
-                          -Dsonar.projectName='deploy-website' \
-                          -Dsonar.host.url=http://192.168.59.128:9000 \
-                          -Dsonar.token=sqp_f936eee75318a73a900f4b8bb679a9f4eccf78f5
+                          -Dsonar.projectKey=pgdp \
+                          -Dsonar.projectName='pgdp' \
+                          -Dsonar.host.url=http://localhost:9000 \
+                          -Dsonar.token=sqp_fedb9e1f1db6a47d846fa3cb501e456cdb378795
                          '''
                 }
             }
