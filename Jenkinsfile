@@ -36,7 +36,7 @@ pipeline {
             steps {
                 script {
                     timeout(time: 2, unit: 'MINUTES') {
-                        def qualityGate = waitForQualityGate()
+                        def qualityGate = waitForQualityGate('SonarQube')
                         if (qualityGate.status != 'OK') {
                             error "Échec du Quality Gate SonarQube : statut = ${qualityGate.status}.\nConsultez : http://192.168.1.55:9000/dashboard?id=pgdp"
                         } else {
