@@ -4,7 +4,7 @@ pipeline {
         maven 'MVN-3.9.10'
     }
     environment {
-        PORT = "8080"
+        PORT = "8081"
         CONTAINER = "pgdp-container"
         IMAGE = "pgdp-image"
     }
@@ -41,6 +41,17 @@ pipeline {
                   '''
                 }
             }
+        }
+    }
+    post {
+        success {
+            echo "L'api est déployer sur l'adresse http://192.168.1.55:${PORT}"
+        }
+        failure {
+            echo "L'api n'a pas pu être déployée."
+        }
+        always {
+            echo "Fin d'exécution"
         }
     }
 }
